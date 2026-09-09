@@ -6,6 +6,15 @@ import java.sql.SQLException;
 
 /** Reads local database settings from environment variables; no password is stored in source control. */
 public final class DBConnection {
+    static {
+        try {
+            // Explicit loading keeps JDBC reliable in servlet container class loaders.
+            Class.forName("com.mysql.cj.jdbc.Driver");
+        } catch (ClassNotFoundException exception) {
+            throw new ExceptionInInitializerError("MySQL Connector/J is missing from the application.");
+        }
+    }
+
     private DBConnection() { }
 
     public static Connection getConnection() throws SQLException {
