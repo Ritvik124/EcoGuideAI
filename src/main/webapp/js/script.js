@@ -3,7 +3,11 @@ if (form) {
   const input = document.querySelector('#question');
   const messages = document.querySelector('#messages');
   const error = document.querySelector('#form-error');
-  const apiBase = (window.ECOGUIDE_API_BASE_URL || '').replace(/\/$/, '');
+  // Same-server Tomcat deployments include a context path such as /EcoGuideAI.
+  // Vercel can override this with a full Java backend URL in config.js.
+  const configuredApiBase = (window.ECOGUIDE_API_BASE_URL || '').replace(/\/$/, '');
+  const localContextPath = window.location.pathname.match(/^\/[^/]+/)?.[0] || '';
+  const apiBase = configuredApiBase || localContextPath;
   const queryQuestion = new URLSearchParams(window.location.search).get('q');
   if (queryQuestion) input.value = queryQuestion;
 
