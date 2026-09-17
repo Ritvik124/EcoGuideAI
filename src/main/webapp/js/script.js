@@ -6,7 +6,7 @@ if (form) {
   // Same-server Tomcat deployments include a context path such as /EcoGuideAI.
   // Vercel can override this with a full Java backend URL in config.js.
   const configuredApiBase = (window.ECOGUIDE_API_BASE_URL || '').replace(/\/$/, '');
-  const localContextPath = window.location.pathname.match(/^\/[^/]+/)?.[0] || '';
+  const localContextPath = window.location.pathname.includes('/EcoGuideAI') ? '/EcoGuideAI' : '';
   const apiBase = configuredApiBase || localContextPath;
   const queryQuestion = new URLSearchParams(window.location.search).get('q');
   if (queryQuestion) input.value = queryQuestion;
