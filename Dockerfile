@@ -21,6 +21,7 @@ RUN rm -rf /usr/local/tomcat/webapps/*
 COPY --from=builder /app/target/EcoGuideAI.war /usr/local/tomcat/webapps/ROOT.war
 
 # Render requires web services to bind to a port, Tomcat defaults to 8080
+RUN sed -i "s|port=\"8005\"|port=\"-1\"|g" /usr/local/tomcat/conf/server.xml
 EXPOSE 8080
 
 # The base Tomcat image already includes the CMD to start the server (catalina.sh run)
